@@ -6,14 +6,47 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
-
-    <!-- 说明用注解的方式来完成配置 -->
-    <mvc:annotation-driven />
-
-
     <!-- 扫描包 ,包名一定要写全-->
     <context:component-scan base-package="org.snow.sys.web" />
 
+    <!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射 -->
+    <!--使用fastJson返回json格式数据-->
+    <mvc:annotation-driven conversion-service="conversionService">
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg name="defaultCharset" value="UTF-8" />
+            </bean>
+            <!-- 配置Fastjson支持 -->
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json</value>
+                    </list>
+                </property>
+                <!-- 定义一个时间属性 WriteDateUseDateFormat是FastJsonHttpMessageConverter
+                类自带的属性features中的枚举值 -->
+                <property name="features">
+                    <list>
+                        <value>WriteMapNullValue</value>
+                        <value>QuoteFieldNames</value>
+                        <value>WriteDateUseDateFormat</value>
+                        <value>PrettyFormat</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <bean id="conversionService"
+          class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="org.framework.basic.convert.String2DateConverter" />
+                <bean class="org.framework.basic.convert.Date2StringConverter" />
+            </set>
+        </property>
+    </bean>
 
     <!-- 设置JSP跳转路径 、前缀和后缀 -->
     <bean
@@ -22,8 +55,7 @@
         <property name="suffix" value=".jsp" />
     </bean>
 
-
-    <!-- 设置json格式 -->
+    <!--试图解析器-->
     <bean id="contentNegotiationManager"
           class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
         <property name="favorPathExtension" value="true" />

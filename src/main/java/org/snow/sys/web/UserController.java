@@ -2,6 +2,7 @@ package org.snow.sys.web;
 
 import org.framework.basic.constant.Constants;
 import org.framework.basic.system.BaseException;
+import org.framework.basic.system.BaseResponse;
 import org.framework.basic.system.ResponseEntity;
 import org.snow.sys.entity.User;
 import org.snow.sys.servce.UserService;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -22,25 +24,20 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @RequestMapping
+    /*@RequestMapping
     public String index() {
         return "add";
-    }
+    }*/
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String insert(User u, Model model) {
-        ResponseEntity resp = new ResponseEntity();
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity insert(User u) {
         try {
             userService.insert(u);
-            resp.setStatus(Constants.System.SUCCESSS);
-            resp.setMessage("添加用户成功");
-        } catch (BaseException e) {
-            resp.setStatus(Constants.System.ERROR);
-            resp.setError("添加用出错，数据库操作失败");
-
+            return BaseResponse.buildSuccess("添加成功");
+        } catch (Exception e) {
+            return BaseResponse.buildError(e.getMessage(), "添加失败");
         }
-        model.addAttribute("resp", resp);
-        return "add";
     }
 
 
