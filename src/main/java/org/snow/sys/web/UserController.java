@@ -8,6 +8,7 @@ import org.snow.sys.entity.User;
 import org.snow.sys.servce.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,7 +32,7 @@ public class UserController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity insert(User u) {
+    public ResponseEntity insert(@RequestBody User u) {
         try {
             userService.insert(u);
             return BaseResponse.buildSuccess("添加成功");
