@@ -42,8 +42,8 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public String update(User u, Model model) {
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(@RequestBody User u, Model model) {
         ResponseEntity resp = new ResponseEntity();
         try {
             userService.update(u);
