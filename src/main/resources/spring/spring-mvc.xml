@@ -93,5 +93,6 @@
         </property>
     </bean>
 
-
+    <import resource="classpath:/spring/applicationContext.xml"/>
+    <import resource="classpath:/spring/applicationContext-framework.xml"/>
 </beans>
