@@ -1,5 +1,6 @@
 package org.snow.sys.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import org.framework.basic.service.impl.BaseServiceImpl;
 import org.snow.sys.dao.UserDao;
 import org.snow.sys.entity.User;
@@ -7,6 +8,7 @@ import org.snow.sys.servce.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by snow on 2015/8/20.
@@ -24,4 +26,12 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     public User queryById(String id) {
         return userDao.queryById(id);
     }
+
+    public List<User> selectAll(Integer pageStar, Integer pageSize) {
+        PageHelper.startPage(pageStar, pageSize);
+        List<User> all = userDao.selectAll();
+        return all;
+    }
+
+
 }

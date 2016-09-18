@@ -15,4 +15,8 @@
         select user_name userName, pass_word passWord from t_user where id = #{id}
 
     </select>
+
+    <select id="selectAll" resultMap="getMap">
+        SELECT * FROM  t_user
+    </select>
 </mapper>
