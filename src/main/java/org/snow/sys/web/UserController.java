@@ -41,6 +41,18 @@ public class UserController {
         }
     }
 
+    //分页
+    @RequestMapping(value = "/selectAll", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity insert(Integer pageStar, Integer pageSize) {
+        try {
+            List<User> users = userService.selectAll(pageStar, pageSize);
+            return BaseResponse.buildSuccess(users);
+        } catch (Exception e) {
+            return BaseResponse.buildError(e.getMessage(), "添加失败");
+        }
+    }
+
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(@RequestBody User u, Model model) {
