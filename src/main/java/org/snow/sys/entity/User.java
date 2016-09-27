@@ -8,6 +8,7 @@ import javax.persistence.Table;
 /**
  * Created by snow on 2015/8/20.
  */
+@Data
 @Table(name="t_user")
 public class User extends BaseEntity {
 
