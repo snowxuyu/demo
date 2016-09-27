@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>主页</title>
 </head>
 <body>
-  #{resp.data}
-
+    <p th:text="${resp.data}">Welcome to our grocery store!</p>
 </body>
 </html>
