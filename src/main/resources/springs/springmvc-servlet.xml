@@ -2,10 +2,17 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+
+    <!-- aop 放在 子容器中可以让切面在controller 层生效-->
+    <aop:config />
+    <aop:aspectj-autoproxy />
+
     <!-- 扫描包 ,包名一定要写全-->
     <context:component-scan base-package="org.snow.sys.web" />
 
@@ -49,25 +56,31 @@
     </bean>
 
     <!-- 设置JSP跳转路径 、前缀和后缀 -->
-    <bean
+   <!-- <bean
             class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/" />
         <property name="suffix" value=".jsp" />
+    </bean>-->
+
+    <bean id="templateResolver"
+          class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/WEB-INF/templates/" />
+        <property name="suffix" value=".html" />
+        <property name="templateMode" value="HTML" />
+        <property name="characterEncoding" value="UTF-8" />
     </bean>
 
-    <!--试图解析器-->
-    <bean id="contentNegotiationManager"
-          class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
-        <property name="favorPathExtension" value="true" />
-        <property name="favorParameter" value="true" />
-        <property name="defaultContentType" value="text/html" />
-        <property name="mediaTypes">
-            <map>
-                <entry key="json" value="application/json" />
-                <entry key="html" value="text/html" />
-                <entry key="xml" value="application/xml" />
-            </map>
+    <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+        <property name="templateResolvers">
+            <set>
+                <ref bean="templateResolver" />
+            </set>
         </property>
+    </bean>
+
+    <bean id="viewResolver" class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine" />
+        <property name="characterEncoding" value="UTF-8" />
     </bean>
 
     <!-- 设置字符编码 -->
@@ -92,7 +105,4 @@
             <value>4096</value>
         </property>
     </bean>
-
-    <import resource="classpath:/spring/applicationContext.xml"/>
-    <import resource="classpath:/spring/applicationContext-framework.xml"/>
 </beans>
