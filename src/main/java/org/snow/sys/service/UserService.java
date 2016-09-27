@@ -1,4 +1,4 @@
-package org.snow.sys.servce;
+package org.snow.sys.service;
 
 import org.framework.basic.service.BaseService;
 import org.snow.sys.entity.User;

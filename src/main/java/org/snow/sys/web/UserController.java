@@ -5,7 +5,7 @@ import org.framework.basic.system.BaseException;
 import org.framework.basic.system.BaseResponse;
 import org.framework.basic.system.ResponseEntity;
 import org.snow.sys.entity.User;
-import org.snow.sys.servce.UserService;
+import org.snow.sys.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
